@@ -1,0 +1,18 @@
+version: '3'
+services:
+  nginx-app:
+    image: nginx
+    expose:
+      - 80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nginx-app.tls=true
+      - traefik.http.routers.nginx-app.tls.certresolver=letsencrypt
+      - traefik.http.routers.nginx-app.rule=Host(`yourdomain.com`)
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html
+    networks:
+      - your-network
+networks:
+  your-network:
+    external: true
