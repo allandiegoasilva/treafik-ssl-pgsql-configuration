@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  taquion-db:
+    image: postgres:14.3
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      - ./config/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./config/postgresql.conf:/etc/postgresql/pg_hba.conf
+    networks:
+      - your-network
+
+networks:
+  your-network:
+    external: true
