@@ -1,0 +1,36 @@
+providers:
+  docker:
+    network: your-network
+
+entryPoints:
+  # Configuration for HTTP. You need leave your port 80 active for dns challenge.
+  web:
+    address: ":80"
+    # Forward user ip address
+    forwardedHeaders:
+      insecure: true
+
+    # redirect all connections http for https
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: ":443"
+    # Forward user ip address
+    forwardedHeaders:
+      insecure: true
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: youremail@gmail.com
+      storage: acme.json
+      httpChallenge:
+        entryPoint: web
+
+# Optional configuration
+log:
+  level: DEBUG
